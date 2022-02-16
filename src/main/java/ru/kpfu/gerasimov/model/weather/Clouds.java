@@ -1,4 +1,4 @@
-package ru.kpfu.gerasimov.model;
+package ru.kpfu.gerasimov.model.weather;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Clouds {

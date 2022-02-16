@@ -1,10 +1,10 @@
-package ru.kpfu.gerasimov.model;
+package ru.kpfu.gerasimov.model.weather;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class Welcome {
+public class WeatherInfo {
     private Coord coord;
     private List<Weather> weather;
     private String base;

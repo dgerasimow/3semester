@@ -1,5 +1,5 @@
 
-package ru.kpfu.gerasimov.model;
+package ru.kpfu.gerasimov.model.weather;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

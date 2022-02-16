@@ -1,4 +1,4 @@
-package ru.kpfu.gerasimov.model;
+package ru.kpfu.gerasimov.model.weather;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -45,11 +45,11 @@ public class ConverterWelcome {
     }
     // Serialize/deserialize helpers
 
-    public static Welcome fromJsonString(String json) throws IOException {
+    public static WeatherInfo fromJsonString(String json) throws IOException {
         return getObjectReader().readValue(json);
     }
 
-    public static String toJsonString(Welcome obj) throws JsonProcessingException {
+    public static String toJsonString(WeatherInfo obj) throws JsonProcessingException {
         return getObjectWriter().writeValueAsString(obj);
     }
 
@@ -69,8 +69,8 @@ public class ConverterWelcome {
             }
         });
         mapper.registerModule(module);
-        reader = mapper.readerFor(Welcome.class);
-        writer = mapper.writerFor(Welcome.class);
+        reader = mapper.readerFor(WeatherInfo.class);
+        writer = mapper.writerFor(WeatherInfo.class);
     }
 
     private static ObjectReader getObjectReader() {

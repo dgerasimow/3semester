@@ -1,11 +1,9 @@
 package ru.kpfu.gerasimov.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,9 +13,13 @@ public class User {
 
     private String email;
 
+    private String password;
+
     public String getName() {
         return name;
     }
+
+    public User() {}
 
     public void setName(String name) {
         this.name = name;
@@ -37,5 +39,19 @@ public class User {
 
     public Integer getId() {
         return id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
     }
 }
