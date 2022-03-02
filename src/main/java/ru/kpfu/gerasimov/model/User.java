@@ -1,19 +1,25 @@
 package ru.kpfu.gerasimov.model;
 
 import javax.persistence.*;
+import java.util.List;
 
-@Entity
-@Table(name = "users")
+@Entity(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column
     private String name;
 
+    @Column
     private String email;
 
+    @Column
     private String password;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Request> requests;
 
     public String getName() {
         return name;

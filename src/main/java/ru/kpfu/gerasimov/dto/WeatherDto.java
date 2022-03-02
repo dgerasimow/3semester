@@ -6,9 +6,8 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 public class WeatherDto {
-    private Long id;
+    private Integer id;
 
-    private Timestamp timestamp;
 
     private String city;
 
@@ -16,15 +15,6 @@ public class WeatherDto {
 
     private String temp;
 
-    private String requesterEmail;
-
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
 
     public String getCity() {
         return city;
@@ -50,35 +40,27 @@ public class WeatherDto {
         this.temp = temp;
     }
 
-    public String getRequesterEmail() {
-        return requesterEmail;
-    }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public void setRequesterEmail(String requesterEmail) {
-        this.requesterEmail = requesterEmail;
-    }
 
-    public WeatherDto(Long id, Timestamp timestamp, String city, String weatherType, String temp, String requesterEmail) {
+    public WeatherDto(Integer id, String city, String weatherType, String temp) {
         this.id = id;
-        this.timestamp = timestamp;
         this.city = city;
         this.weatherType = weatherType;
         this.temp = temp;
-        this.requesterEmail = requesterEmail;
     }
 
     public static WeatherDto fromModel(WeatherModel weather) {
-        return new WeatherDto(weather.getId(), weather.getTimestamp(),
+        return new WeatherDto(weather.getId(),
                 weather.getCity(), weather.getWeatherType(),
-                weather.getTemp(), weather.getRequesterEmail());
+                weather.getTemp());
     }
 
     public WeatherDto() {}

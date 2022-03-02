@@ -8,34 +8,37 @@ import java.sql.Timestamp;
 public class WeatherModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
-    private Timestamp timestamp;
-
+    @Column
     private String city;
 
+    @Column
     private String weatherType;
 
+    @Column
     private String temp;
 
-    private String requesterEmail;
+    @OneToOne(mappedBy = "weather")
+    private Request request;
+
 
     public WeatherModel() {}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public Request getRequest() {
+        return request;
+    }
+
+    public void setRequest(Request request) {
+        this.request = request;
     }
 
     public String getCity() {
@@ -62,19 +65,10 @@ public class WeatherModel {
         this.temp = temp;
     }
 
-    public String getRequesterEmail() {
-        return requesterEmail;
-    }
 
-    public void setRequesterEmail(String requesterEmail) {
-        this.requesterEmail = requesterEmail;
-    }
-
-    public WeatherModel(Timestamp timestamp, String city, String weatherType, String temp, String requesterEmail) {
-        this.timestamp = timestamp;
+    public WeatherModel(String city, String weatherType, String temp) {
         this.city = city;
         this.weatherType = weatherType;
         this.temp = temp;
-        this.requesterEmail = requesterEmail;
     }
 }
