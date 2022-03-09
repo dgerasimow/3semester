@@ -4,15 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.kpfu.gerasimov.dto.RequestDto;
 import ru.kpfu.gerasimov.dto.WeatherDto;
 import ru.kpfu.gerasimov.model.Request;
 import ru.kpfu.gerasimov.model.User;
 import ru.kpfu.gerasimov.model.WeatherModel;
 import ru.kpfu.gerasimov.model.weather.WeatherInfo;
-import ru.kpfu.gerasimov.respository.RequestRepository;
-import ru.kpfu.gerasimov.respository.UserRepository;
-import ru.kpfu.gerasimov.respository.WeatherRepository;
+import ru.kpfu.gerasimov.repository.RequestRepository;
+import ru.kpfu.gerasimov.repository.UserRepository;
+import ru.kpfu.gerasimov.repository.WeatherRepository;
 import ru.kpfu.gerasimov.services.NetworkService;
 import ru.kpfu.gerasimov.services.WeatherService;
 

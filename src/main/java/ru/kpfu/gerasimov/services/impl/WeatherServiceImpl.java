@@ -3,7 +3,7 @@ package ru.kpfu.gerasimov.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.kpfu.gerasimov.dto.WeatherDto;
-import ru.kpfu.gerasimov.respository.WeatherRepository;
+import ru.kpfu.gerasimov.repository.WeatherRepository;
 import ru.kpfu.gerasimov.services.WeatherService;
 
 import java.util.List;

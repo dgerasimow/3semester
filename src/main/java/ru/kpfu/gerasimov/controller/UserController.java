@@ -1,27 +1,32 @@
 package ru.kpfu.gerasimov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.kpfu.gerasimov.dto.CreateUserDto;
 import ru.kpfu.gerasimov.dto.UserDto;
 import ru.kpfu.gerasimov.model.User;
-import ru.kpfu.gerasimov.respository.UserRepository;
+import ru.kpfu.gerasimov.repository.UserRepository;
 import ru.kpfu.gerasimov.services.EncryptingService;
+import ru.kpfu.gerasimov.services.UserService;
 
 import javax.validation.Valid;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-@RestController
+@Controller
 public class UserController {
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping("/user")
+    @ResponseBody
     public Iterable<UserDto> getAll() {
         return StreamSupport.stream(userRepository.findAll().spliterator(), false)
                 .map(UserDto::fromModel)
@@ -29,6 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
+    @ResponseBody
     public UserDto get(@PathVariable Integer id) {
         return userRepository.findById(id).stream()
                 .map(UserDto::fromModel)
@@ -38,9 +44,16 @@ public class UserController {
 
 
     @PostMapping("/user")
+    @ResponseBody
     public UserDto createUser(@Valid @RequestBody CreateUserDto user) {
         return UserDto.fromModel(userRepository.save(new User(user.getName(),
                 user.getEmail(),
                 EncryptingService.encrypt(user.getPassword()))));
+    }
+
+    @PostMapping("/sign_up")
+    public String signUp(@ModelAttribute(name = "user") CreateUserDto userDto) {
+        userService.save(userDto);
+        return "sign_up_success";
     }
 }

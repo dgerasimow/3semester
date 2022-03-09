@@ -3,7 +3,7 @@ package ru.kpfu.gerasimov.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.kpfu.gerasimov.dto.RequestDto;
-import ru.kpfu.gerasimov.respository.RequestRepository;
+import ru.kpfu.gerasimov.repository.RequestRepository;
 import ru.kpfu.gerasimov.services.RequestService;
 
 import java.util.List;
