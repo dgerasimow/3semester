@@ -5,8 +5,11 @@ import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
 
-@Entity(name = "users")
+@Entity
+@Table(name = "users")
 public class User {
+    private boolean enabled;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -21,6 +24,9 @@ public class User {
     @Column
     private String password;
 
+    @Column(length = 64)
+    private String verificationCode;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
@@ -32,9 +38,11 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Request> requests;
 
-    public User(String name, String email) {
+    public User(String name, String email, String verificationCode, String password) {
         this.name = name;
         this.email = email;
+        this.verificationCode = verificationCode;
+        this.password = password;
     }
 
     public String getName() {
@@ -77,6 +85,22 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public User(String name, String email, String password) {

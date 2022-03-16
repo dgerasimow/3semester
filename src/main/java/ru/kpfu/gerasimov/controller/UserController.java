@@ -1,6 +1,7 @@
 package ru.kpfu.gerasimov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.kpfu.gerasimov.dto.CreateUserDto;
@@ -10,7 +11,7 @@ import ru.kpfu.gerasimov.repository.UserRepository;
 import ru.kpfu.gerasimov.services.EncryptingService;
 import ru.kpfu.gerasimov.services.UserService;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -42,18 +43,19 @@ public class UserController {
                 .orElse(null);
     }
 
-
-    @PostMapping("/user")
-    @ResponseBody
-    public UserDto createUser(@Valid @RequestBody CreateUserDto user) {
-        return UserDto.fromModel(userRepository.save(new User(user.getName(),
-                user.getEmail(),
-                EncryptingService.encrypt(user.getPassword()))));
+    @PostMapping("/sign_up")
+    public String signUp(@ModelAttribute(name = "user") CreateUserDto userDto, HttpServletRequest request) {
+        String url = request.getRequestURL().toString().replace(request.getServletPath(), "");
+        userService.signUp(userDto, url);
+        return "sign_up_success";
     }
 
-    @PostMapping("/sign_up")
-    public String signUp(@ModelAttribute(name = "user") CreateUserDto userDto) {
-        userService.save(userDto);
-        return "sign_up_success";
+    @GetMapping("/verification")
+    public String verify(@Param("code") String code) {
+        if (userService.verify(code)) {
+            return "verification_success";
+        } else {
+            return "verification_failed";
+        }
     }
 }

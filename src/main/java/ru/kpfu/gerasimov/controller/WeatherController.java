@@ -1,6 +1,9 @@
 package ru.kpfu.gerasimov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,16 +50,20 @@ public class WeatherController {
     }
 
     @GetMapping("/weather")
-    public WeatherDto weather(@RequestParam Optional<String> city,
-                               @RequestParam Optional<String> email) {
-        if(city.isPresent() && email.isPresent()){
-            if (isUserExistByEmail(email.get())) {
+    public WeatherDto weather(@RequestParam Optional<String> city, Authentication authentication) {
+
+        if(city.isPresent()){
+            if (authentication.isAuthenticated()) {
                 WeatherInfo fetchedData = networkService.fetchData(city.get());
                 WeatherModel weatherModel = new WeatherModel(city.get(),
                         fetchedData.getWeather().get(0).getMain(),
                         Double.toString(fetchedData.getMain().getTemp()));
                 WeatherDto returnModel = WeatherDto.fromModel(weatherRepository.save(weatherModel));
-                requestRepository.save(new Request(Timestamp.from(Instant.now()), getUserByEmail(email.get()), weatherModel));
+                System.out.println(authentication.getName());
+
+                requestRepository.save(new Request(Timestamp.from(Instant.now()),
+                        userRepository.getUserByEmail(authentication.getName()).orElse(new User()),
+                        weatherModel));
                 return returnModel;
             }
             return new WeatherDto();
