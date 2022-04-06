@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.kpfu.gerasimov.aspect.Loggable;
 import ru.kpfu.gerasimov.dto.WeatherDto;
 import ru.kpfu.gerasimov.model.Request;
 import ru.kpfu.gerasimov.model.User;
@@ -49,8 +50,9 @@ public class WeatherController {
         this.weatherService = weatherService;
     }
 
+    @Loggable
     @GetMapping("/weather")
-    public WeatherDto weather(@RequestParam Optional<String> city, Authentication authentication) {
+    public WeatherDto getWeather(@RequestParam Optional<String> city, Authentication authentication) {
 
         if(city.isPresent()){
             if (authentication.isAuthenticated()) {
