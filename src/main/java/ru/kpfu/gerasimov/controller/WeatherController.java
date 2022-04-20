@@ -1,5 +1,9 @@
 package ru.kpfu.gerasimov.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -50,6 +54,9 @@ public class WeatherController {
         this.weatherService = weatherService;
     }
 
+    @Operation(summary = "Return weather by city")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "weather was get", content = {@Content(mediaType = "application/json")})})
     @Loggable
     @GetMapping("/weather")
     public WeatherDto getWeather(@RequestParam Optional<String> city, Authentication authentication) {
@@ -73,7 +80,9 @@ public class WeatherController {
             return new WeatherDto();
         }
     }
-
+    @Operation(summary = "Return all weather")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "weather was get", content = {@Content(mediaType = "application/json")})})
     @GetMapping("/allweather")
     public Iterable<WeatherModel> getAllWeather() {
         return weatherRepository.findAll();
@@ -91,7 +100,9 @@ public class WeatherController {
                     .findFirst().orElse(new User());
 
     }
-
+    @Operation(summary = "Return requests weather by city")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200",
+            description = "requests were get", content = {@Content(mediaType = "application/json")})})
     @GetMapping("/weather/by-city")
     public List<WeatherDto> requestByCity(@RequestParam String city) {
         return weatherService.getWeatherByCity(city);
